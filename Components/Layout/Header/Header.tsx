@@ -45,7 +45,7 @@ const Header = () => {
               </a>
             </Typography>
           </Link>
-          <Link href="./Appointment">
+          <Link href="./Services">
             <Typography variant="h6">
               <a
                 style={{
@@ -55,7 +55,7 @@ const Header = () => {
                   fontFamily: "Open Sans",
                 }}
               >
-                Appointment Schedule
+                Our Services
               </a>
             </Typography>
           </Link>

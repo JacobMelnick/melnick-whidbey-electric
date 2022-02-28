@@ -1,6 +1,6 @@
 import * as React from "react";
 import Layout from "../Components/Layout/Layout";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, Paper } from "@mui/material";
 import { makeStyles } from "@material-ui/styles";
 import Link from "next/link";
 import Button from "@material-ui/core/Button";
@@ -54,6 +54,15 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     // fontWeight: 600,
   },
+  secondPhoto: {
+    width: "100%",
+    height: 400,
+    backgroundImage: "url(/Images/HomePhoto.jpg)",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    marginTop: '3%'
+  }
 }));
 
 const Home = () => {
@@ -93,47 +102,12 @@ const Home = () => {
           container
           alignItems="center"
           justifyContent="center"
-          spacing={4}
-          marginTop="3%"
-          direction="column"
-        >
-          <Grid item xs={12} md={6} lg={12}>
-            <Typography variant="h2">
-              Check Our availability and get a quote
-            </Typography>
-          </Grid>
-          <Grid item xs={12} md={6} lg={4}>
-            <Typography variant="h5">
-              Here at Melnick Whidbey Electric, we believe communication with
-              our clients is a top priority. We are here to help you with your
-              home and one of the best ways to do it is by phone. If you are
-              unable to reach us feel free to check our schedule and see when we
-              are available to help you.
-            </Typography>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            style={{ textAlign: "center", paddingBottom: "5%" }}
-          >
-            <Link href="/Appointment">
-              <Button size="large" className={classes.contact}>
-                Appointments
-                <ArrowForwardIcon className="contactButton"></ArrowForwardIcon>
-              </Button>
-            </Link>
-          </Grid>
-        </Grid>
-        <Grid
-          container
-          alignItems="center"
-          justifyContent="center"
           spacing={5}
           marginTop="3%"
         >
           <Grid item xs={12}>
-            <Typography variant="h4" style={{ textAlign: "center" }}>
-              About Us
+            <Typography variant="h2" style={{ textAlign: "center" }}>
+              About Our Company
             </Typography>
           </Grid>
           <Grid item xs={12} md={12} lg={10}>
@@ -146,6 +120,36 @@ const Home = () => {
               of providing quality electric services for the Whidbey Island
               community and surrounding areas. We provide services ranging from
               installation, maintenance, and repair.
+            </Typography>
+          </Grid>
+        </Grid>
+                  <Paper className={classes.secondPhoto}>
+
+                  </Paper>
+
+
+        <Grid
+          container
+          alignItems="center"
+          justifyContent="center"
+          spacing={5}
+          marginTop="3%"
+        >
+          <Grid item xs={12}>
+            <Typography variant="h2" style={{ textAlign: "center" }}>
+              Contact Us
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={12} lg={10}>
+            <Typography
+              variant="h6"
+              style={{ textAlign: "center", fontWeight: 300 }}
+            >
+              Here at Melnick Whidbey Electric, we believe communication with
+              our clients is a top priority. We are here to help you with your
+              home and one of the best ways to do it is by phone. If you are
+              unable to reach us feel free to fill our contact form and we will
+              get back to you as soon as possible.
             </Typography>
           </Grid>
           <Grid
