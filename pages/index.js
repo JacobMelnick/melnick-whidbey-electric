@@ -1,10 +1,11 @@
-import * as React from "react";
+import React, {useState} from "react";
 import Layout from "../Components/Layout/Layout";
 import { Grid, Typography, Paper } from "@mui/material";
 import { makeStyles } from "@material-ui/styles";
-import Link from "next/link";
 import Button from "@material-ui/core/Button";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import ContactModal from "../Components/ContactModal/ContactModal";
+import Modal from 'react-modal';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -21,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
   contact: {
     border: "3px solid #2ea3f2",
-    maxWidth: "200px",
+    maxWidth: "300px",
     maxHeight: "60px",
     minWidth: "200px",
     minHeight: "60px",
@@ -61,12 +62,26 @@ const useStyles = makeStyles((theme) => ({
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
-    marginTop: '3%'
-  }
+    marginTop: "3%",
+  },
+  
 }));
 
 const Home = () => {
+  const [open, setOpen] = useState(false);
+
   const classes = useStyles();
+
+  const onAfterOpen = () => { 
+    console.log('opened');
+  };
+
+  const onRequestClose = () => { 
+    setOpen(false);
+  }
+
+
+
   return (
     <Layout>
       <Grid
@@ -113,7 +128,11 @@ const Home = () => {
           <Grid item xs={12} md={12} lg={10}>
             <Typography
               variant="h6"
-              style={{ textAlign: "center", fontWeight: 300 }}
+              style={{
+                textAlign: "center",
+                fontWeight: 300,
+                marginBottom: "3%",
+              }}
             >
               In 2019, after years of working as an apprentice and for multiple
               companies, Gunnar Melnick founded Melnick Electric with the goal
@@ -123,10 +142,7 @@ const Home = () => {
             </Typography>
           </Grid>
         </Grid>
-                  <Paper className={classes.secondPhoto}>
-
-                  </Paper>
-
+        <Paper className={classes.secondPhoto}></Paper>
 
         <Grid
           container
@@ -157,12 +173,19 @@ const Home = () => {
             xs={12}
             style={{ textAlign: "center", paddingBottom: "5%" }}
           >
-            <Link href="/Contact-us">
-              <Button size="large" className={classes.contact}>
-                Contact Us
+              <Button size="large" className={classes.contact}
+              onClick={() => setOpen(true)}
+              >
+                Contact Form
                 <ArrowForwardIcon className="contactButton"></ArrowForwardIcon>
               </Button>
-            </Link>
+              <Modal
+               isOpen={open}
+               onRequestClose={onRequestClose}
+               contentLabel="Example Modal"
+              >
+                <ContactModal onRequestClose={onRequestClose}/>
+              </Modal>
           </Grid>
         </Grid>
       </Grid>

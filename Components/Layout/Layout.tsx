@@ -2,7 +2,7 @@ import React from "react";
 import Head from "next/head";
 import Header from "./Header/Header";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { CssBaseline } from "@mui/material";
+import CssBaseline from '@mui/material/CssBaseline';
 
 const Layout = ({ children }) => {
   const theme = createTheme({});
@@ -12,7 +12,7 @@ const Layout = ({ children }) => {
       <Head>
         <title>Melnick Electric | Bringing Power to the Island you Love</title>
       </Head>
-      <Header />
+      {/* <Header /> */}
       <ThemeProvider theme={theme}>
         {/* SEO */}
         <CssBaseline />

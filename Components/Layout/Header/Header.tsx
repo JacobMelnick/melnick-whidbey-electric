@@ -23,12 +23,15 @@ const Header = () => {
         padding: "1%",
       }}
     >
-      <Grid item xs={12}>
-      <Image src={"/Images/MelnickElectric.jpg"} alt="Melnick Electric Logo" width={320} height={150}>
-      </Image>
+      <Grid item>
+        <Image
+          src={"/Images/MelnickElectric.jpg"}
+          alt="Melnick Electric Logo"
+          width={320}
+          height={150}
+        ></Image>
       </Grid>
 
-     
       <Grid item>
         <Stack direction="row" spacing={5}>
           <Link href="/">
