@@ -25,6 +25,7 @@ const useStyles = makeStyles({
 
 const ContactModal = ({ onRequestClose, setUserData, userData, sendEmail }) => {
   const classes = useStyles();
+  const [clicked, setClicked] = useState(false);
   const resetData = () => {
     setUserData({
       firstName: "",
@@ -145,11 +146,19 @@ const ContactModal = ({ onRequestClose, setUserData, userData, sendEmail }) => {
         <Button
           variant="contained"
           style={{ marginTop: "5%", display: "block", margin: "auto" }}
-          onClick={(e) => {sendEmail(e, userData), resetData()}}
+          onClick={(e) => {sendEmail(e, userData), resetData(), setClicked(true),
+          setTimeout(() => {
+            onRequestClose();
+          }, 3000)}
+        }
           // type="submit"
           >
           Submit
         </Button>
+        {clicked && 
+        <Typography variant="h6" style={{ textAlign: "center", color: "green" }}>
+          Email Sent!
+        </Typography>}
           </Grid>
       </form>
     </Grid>
