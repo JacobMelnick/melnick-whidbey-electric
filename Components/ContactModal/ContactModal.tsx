@@ -35,8 +35,24 @@ const ContactModal = ({ onRequestClose, setUserData, userData, sendEmail }) => {
   };
 
   return (
-    <Grid container spacing={2} direction="column">
-      <Grid item xs={12} md={9} lg={4} >
+    <Grid container spacing={2} direction="column" >
+       <form 
+        onSubmit={(e) => {
+          sendEmail(e, userData);
+        }}
+        id="contact-form"
+        style={{
+          width: "50%",
+          margin: "auto",
+          padding: "2%",
+          border: "2px solid black",
+          borderRadius: "5px",
+          boxShadow: "0 1px 0 rgb(0 0 0 / 15%)",
+          background: "white",
+          position: "relative",
+        }}
+      >
+      <Grid item xs={12} md={9} lg={12} >
         <Typography
           variant="h4"
           style={{ textAlign: "center" }}
@@ -52,21 +68,7 @@ const ContactModal = ({ onRequestClose, setUserData, userData, sendEmail }) => {
           }}
         ></CloseIcon>
       </Grid>
-      <form 
-        onSubmit={(e) => {
-          sendEmail(e, userData);
-        }}
-        id="contact-form"
-        style={{
-          width: "100%",
-          margin: "auto",
-          padding: "2%",
-          border: "1px solid black",
-          borderRadius: "5px",
-          boxShadow: "0 1px 0 rgb(0 0 0 / 10%)",
-
-        }}
-      >
+     
         <Grid
           container
           alignItems="center"
@@ -115,12 +117,11 @@ const ContactModal = ({ onRequestClose, setUserData, userData, sendEmail }) => {
               error={userData.email.includes('@') ?  false : true}
               helperText={userData.email.includes('@') ? '' : 'Please Enter Valid Email'}
               required
+              fullWidth
               onChange={(e) =>
                 setUserData({ ...userData, email: e.target.value })
               }
             />
-          </Grid>
-          <Grid item xs={12} md={9} lg={4}>
             <TextField
               style={{ padding: 10 }}
               id="contact-form"
@@ -128,6 +129,7 @@ const ContactModal = ({ onRequestClose, setUserData, userData, sendEmail }) => {
               type='number'
               name="phone"
               variant="outlined"
+              fullWidth
               value={userData.phone}
               error={userData.phone.length === 0 ?  true : false} 
               helperText={userData.phone.length === 0 ? 'Please Enter Your Phone Number' : ''}

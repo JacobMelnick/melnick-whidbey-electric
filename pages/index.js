@@ -67,6 +67,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundRepeat: "no-repeat",
     marginTop: "3%",
   },
+ 
 }));
 
 const Home = () => {
@@ -219,6 +220,17 @@ const Home = () => {
               <ArrowForwardIcon className="contactButton"></ArrowForwardIcon>
             </Button>
             <Modal
+              style={{
+                content: {
+                  position: 'relative',
+                  backgroundColor: 'rgba(000, 0, 0, 0)',
+                  border: 'none',
+                  
+                },
+                overlay: {
+                zIndex: 100,
+                backgroundColor: "rgba(000, 0, 0, 0.4)",
+              }}}
               ariaHideApp={false}
               isOpen={open}
               onRequestClose={onRequestClose}
