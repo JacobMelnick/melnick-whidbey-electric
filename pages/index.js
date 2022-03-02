@@ -1,11 +1,14 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Layout from "../Components/Layout/Layout";
 import { Grid, Typography, Paper } from "@mui/material";
 import { makeStyles } from "@material-ui/styles";
 import Button from "@material-ui/core/Button";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ContactModal from "../Components/ContactModal/ContactModal";
-import Modal from 'react-modal';
+import Modal from "react-modal";
+import emailjs from "@emailjs/browser";
+import { init } from "@emailjs/browser";
+init("UtxZhU7UVPjfsQtsU");
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -64,23 +67,57 @@ const useStyles = makeStyles((theme) => ({
     backgroundRepeat: "no-repeat",
     marginTop: "3%",
   },
-  
 }));
 
 const Home = () => {
-  const [open, setOpen] = useState(false);
-
   const classes = useStyles();
+  const [open, setOpen] = useState(false);
+  const [userData, setUserData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+  });
 
-  const onAfterOpen = () => { 
-    console.log('opened');
+  const sendEmail = (e, userData) => {
+    e.preventDefault();
+    const data = document.getElementById("contact-form");
+    console.log(userData);
+
+    if (
+      userData.firstName === "" ||
+      userData.lastName === "" ||
+      userData.email === "" ||
+      userData.phone === ""
+    ) {
+      alert("Please fill out all fields");
+    } else if (
+      userData.email.indexOf("@") === -1 ||
+      userData.email.indexOf(".") === -1
+    ) {
+      alert("Please enter a valid email");
+    } else {
+      emailjs
+        .sendForm(
+          "service_il7hgfl",
+          "template_3l5zuo2",
+          data,
+          process.env.NEXT_PUBLIC_USER_ID
+        )
+        .then(
+          (response) => {
+            console.log("SUCCESS!", response.status);
+          },
+          (err) => {
+            console.log("FAILED...", err);
+          }
+        );
+    }
   };
 
-  const onRequestClose = () => { 
+  const onRequestClose = () => {
     setOpen(false);
-  }
-
-
+  };
 
   return (
     <Layout>
@@ -173,19 +210,27 @@ const Home = () => {
             xs={12}
             style={{ textAlign: "center", paddingBottom: "5%" }}
           >
-              <Button size="large" className={classes.contact}
+            <Button
+              size="large"
+              className={classes.contact}
               onClick={() => setOpen(true)}
-              >
-                Contact Form
-                <ArrowForwardIcon className="contactButton"></ArrowForwardIcon>
-              </Button>
-              <Modal
-               isOpen={open}
-               onRequestClose={onRequestClose}
-               contentLabel="Example Modal"
-              >
-                <ContactModal onRequestClose={onRequestClose}/>
-              </Modal>
+            >
+              Contact Form
+              <ArrowForwardIcon className="contactButton"></ArrowForwardIcon>
+            </Button>
+            <Modal
+              ariaHideApp={false}
+              isOpen={open}
+              onRequestClose={onRequestClose}
+              contentLabel="Contact Form"
+            >
+              <ContactModal
+                sendEmail={sendEmail}
+                onRequestClose={onRequestClose}
+                setUserData={setUserData}
+                userData={userData}
+              />
+            </Modal>
           </Grid>
         </Grid>
       </Grid>
