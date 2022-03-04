@@ -159,6 +159,7 @@ const Home = () => {
           justifyContent="center"
           spacing={5}
           marginTop="3%"
+          style={{width: "100%"}}
         >
           <Grid item xs={12}>
             <Typography variant="h2" style={{ textAlign: "center" }}>
@@ -190,6 +191,7 @@ const Home = () => {
           justifyContent="center"
           spacing={5}
           marginTop="3%"
+          style={{width: "100%"}}
         >
           <Grid item xs={12}>
             <Typography variant="h2" style={{ textAlign: "center" }}>
@@ -221,6 +223,7 @@ const Home = () => {
               Contact Form
               <ArrowForwardIcon className="contactButton"></ArrowForwardIcon>
             </Button>
+
             <Modal
               style={{
                 content: {
@@ -248,6 +251,7 @@ const Home = () => {
                 setValidate={setValidate}
               />
             </Modal>
+
           </Grid>
         </Grid>
       </Grid>

@@ -24,11 +24,11 @@ const Services = ({}: ServicesProps): JSX.Element => {
     <Layout>
       <Grid
         container
-        spacing={3}
+        spacing={4}
         xs={12}
         justifyContent="center"
-        alignItems="flex-start"
-        style={{ paddingBottom: "5%", paddingTop: "3%" }}
+        alignItems="center"
+        style={{ paddingBottom: "5%", paddingTop: "3%", margin: "auto" }}
       >
         <Grid item xs={12} md={6} lg={4} container spacing={2}>
           <Card className={classes.card}>
