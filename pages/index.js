@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "../Components/Layout/Layout";
 import { Grid, Typography, Paper } from "@mui/material";
 import { makeStyles } from "@material-ui/styles";
@@ -67,38 +67,38 @@ const useStyles = makeStyles((theme) => ({
     backgroundRepeat: "no-repeat",
     marginTop: "3%",
   },
- 
 }));
 
 const Home = () => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [validate, setValidate] = useState(false);
   const [userData, setUserData] = useState({
     firstName: "",
     lastName: "",
     email: "",
     phone: "",
   });
+ 
+  const validateForm = () => {
+    if (
+      userData.firstName.length > 0 &&
+      userData.lastName.length > 0 &&
+      userData.email.length > 0 &&
+      userData.email.includes("@") &&
+      userData.phone.length > 0
+    ) {
+      setValidate(true);
+      sendEmail()
+    } else {
+      setValidate(false);
+    }
+  };
 
   const sendEmail = (e, userData) => {
-    e.preventDefault();
+    // e.preventDefault();
     const data = document.getElementById("contact-form");
-    console.log(userData);
-
-    if (
-      userData.firstName === "" ||
-      userData.lastName === "" ||
-      userData.email === "" ||
-      userData.phone === ""
-    ) {
-      alert("Please fill out all fields");
-    } else if (
-      userData.email.indexOf("@") === -1 ||
-      userData.email.indexOf(".") === -1
-    ) {
-      alert("Please enter a valid email");
-    } else {
-      emailjs
+       emailjs
         .sendForm(
           "service_il7hgfl",
           "template_3l5zuo2",
@@ -108,13 +108,15 @@ const Home = () => {
         .then(
           (response) => {
             console.log("SUCCESS!", response.status);
+            setValidate(false)
           },
           (err) => {
             console.log("FAILED...", err);
           }
         );
-    }
+   
   };
+
 
   const onRequestClose = () => {
     setOpen(false);
@@ -222,15 +224,15 @@ const Home = () => {
             <Modal
               style={{
                 content: {
-                  position: 'relative',
-                  backgroundColor: 'rgba(000, 0, 0, 0)',
-                  border: 'none',
-                  
+                  position: "relative",
+                  backgroundColor: "rgba(000, 0, 0, 0)",
+                  border: "none",
                 },
                 overlay: {
-                zIndex: 100,
-                backgroundColor: "rgba(000, 0, 0, 0.4)",
-              }}}
+                  zIndex: 100,
+                  backgroundColor: "rgba(000, 0, 0, 0.4)",
+                },
+              }}
               ariaHideApp={false}
               isOpen={open}
               onRequestClose={onRequestClose}
@@ -241,6 +243,9 @@ const Home = () => {
                 onRequestClose={onRequestClose}
                 setUserData={setUserData}
                 userData={userData}
+                validate={validate}
+                validateForm={validateForm}
+                setValidate={setValidate}
               />
             </Modal>
           </Grid>

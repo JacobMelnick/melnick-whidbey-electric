@@ -21,11 +21,37 @@ const useStyles = makeStyles({
     right: "0",
     cursor: "pointer",
   },
+  textField: {
+    " & p": {
+      fontSize: ".75rem",
+      color: "red",
+    },
+  },
 });
 
-const ContactModal = ({ onRequestClose, setUserData, userData, sendEmail }) => {
+const ContactModal = ({
+  onRequestClose,
+  setUserData,
+  userData,
+  sendEmail,
+  validate,
+  validateForm,
+  setValidate,
+}) => {
   const classes = useStyles();
   const [clicked, setClicked] = useState(false);
+
+  useEffect(() => {
+    if (validate) {
+      setTimeout(() => {
+        onRequestClose();
+      }, 2000);
+    }
+    if (validate) {
+      resetData();
+    }
+  }, [validate]);
+
   const resetData = () => {
     setUserData({
       firstName: "",
@@ -36,8 +62,8 @@ const ContactModal = ({ onRequestClose, setUserData, userData, sendEmail }) => {
   };
 
   return (
-    <Grid container spacing={2} direction="column" >
-       <form 
+    <Grid container spacing={2} direction="column">
+      <form
         onSubmit={(e) => {
           sendEmail(e, userData);
         }}
@@ -53,23 +79,23 @@ const ContactModal = ({ onRequestClose, setUserData, userData, sendEmail }) => {
           position: "relative",
         }}
       >
-      <Grid item xs={12} md={9} lg={12} >
-        <Typography
-          variant="h4"
-          style={{ textAlign: "center" }}
-          className={classes.title}
-        >
-          Contact Form
-        </Typography>
-        <CloseIcon
-          className={classes.exit}
-          onClick={() => {
-            resetData();
-            onRequestClose();
-          }}
-        ></CloseIcon>
-      </Grid>
-     
+        <Grid item xs={12} md={9} lg={12}>
+          <Typography
+            variant="h4"
+            style={{ textAlign: "center" }}
+            className={classes.title}
+          >
+            Contact Form
+          </Typography>
+          <CloseIcon
+            className={classes.exit}
+            onClick={() => {
+              resetData();
+              onRequestClose();
+            }}
+          ></CloseIcon>
+        </Grid>
+
         <Grid
           container
           alignItems="center"
@@ -85,9 +111,15 @@ const ContactModal = ({ onRequestClose, setUserData, userData, sendEmail }) => {
               label="First Name"
               variant="outlined"
               name="firstName"
-              error={userData.firstName.length === 0 ?  true : false} 
-              helperText={userData.firstName.length === 0 ? 'Please Enter First Name' : ''}
-              required
+              classes={{ root: classes.textField }}
+              error={
+                userData.firstName.length === 0 && validate === false
+                  ? true
+                  : false
+              }
+              helperText={
+                userData.firstName.length === 0 ? "Please Enter First Name" : ""
+              }
               onChange={(e) =>
                 setUserData({ ...userData, firstName: e.target.value })
               }
@@ -96,11 +128,18 @@ const ContactModal = ({ onRequestClose, setUserData, userData, sendEmail }) => {
               style={{ padding: 10 }}
               id="contact-form"
               label="Last Name"
+              classes={{ root: classes.textField }}
               variant="outlined"
               value={userData.lastName}
               name="lastName"
-              error={userData.lastName.length === 0 ?  true : false} 
-              helperText={userData.lastName.length === 0 ? 'Please Enter Last Name' : ''}
+              error={
+                userData.lastName.length === 0 && validate === false
+                  ? true
+                  : false
+              }
+              helperText={
+                userData.lastName.length === 0 ? "Please Enter Last Name" : ""
+              }
               required
               onChange={(e) =>
                 setUserData({ ...userData, lastName: e.target.value })
@@ -111,12 +150,17 @@ const ContactModal = ({ onRequestClose, setUserData, userData, sendEmail }) => {
             <TextField
               style={{ padding: 10 }}
               id="contact-form"
+              classes={{ root: classes.textField }}
               value={userData.email}
               label="Email"
               variant="outlined"
               name="email"
-              error={userData.email.includes('@') ?  false : true}
-              helperText={userData.email.includes('@') ? '' : 'Please Enter Valid Email'}
+              error={
+                userData.email.length === 0 && validate === false ? true : false
+              }
+              helperText={
+                userData.email.includes("@") ? "" : "Please Enter Valid Email"
+              }
               required
               fullWidth
               onChange={(e) =>
@@ -127,13 +171,24 @@ const ContactModal = ({ onRequestClose, setUserData, userData, sendEmail }) => {
               style={{ padding: 10 }}
               id="contact-form"
               label="Phone"
-              type='number'
+              type="number"
               name="phone"
               variant="outlined"
               fullWidth
               value={userData.phone}
-              error={userData.phone.length === 0 ?  true : false} 
-              helperText={userData.phone.length === 0 ? 'Please Enter Your Phone Number' : ''}
+              classes={{ root: classes.textField }}
+              error={
+                userData.phone.length === 0 &&
+                validate === false &&
+                userData.phone.length < 9
+                  ? true
+                  : false
+              }
+              helperText={
+                userData.phone.length === 0
+                  ? "Please Enter Your Phone Number"
+                  : ""
+              }
               required
               onChange={(e) =>
                 setUserData({ ...userData, phone: e.target.value })
@@ -142,24 +197,28 @@ const ContactModal = ({ onRequestClose, setUserData, userData, sendEmail }) => {
           </Grid>
         </Grid>
         <Grid item xs={12} md={9} lg={12}>
-
-        <Button
-          variant="contained"
-          style={{ marginTop: "5%", display: "block", margin: "auto" }}
-          onClick={(e) => {sendEmail(e, userData), resetData(), setClicked(true),
-          setTimeout(() => {
-            onRequestClose();
-          }, 3000)}
-        }
-          // type="submit"
+          <Button
+            variant="contained"
+            style={{ marginTop: "5%", display: "block", margin: "auto" }}
+            onClick={(e) => {
+              validateForm(),
+                setClicked(true),
+                setTimeout(() => {
+                  validate === true ? onRequestClose() : null;
+                }, 2000);
+            }}
           >
-          Submit
-        </Button>
-        {clicked && 
-        <Typography variant="h6" style={{ textAlign: "center", color: "green" }}>
-          Email Sent!
-        </Typography>}
-          </Grid>
+            Submit
+          </Button>
+          {clicked && validate && (
+            <Typography
+              variant="h6"
+              style={{ textAlign: "center", color: "green" }}
+            >
+              Email Sent!
+            </Typography>
+          )}
+        </Grid>
       </form>
     </Grid>
   );
